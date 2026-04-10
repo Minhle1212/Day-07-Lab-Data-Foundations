@@ -127,14 +127,6 @@ class LateChunking:
 **Kết quả chạy thực tế (mock embedding):**
 > Late Chunking không cải thiện Top-1 trong run này (giữ ở 0.40), nhưng tăng Top-3 recall từ 0.40 lên 0.60. Điều này cho thấy cắt muộn giúp tăng cơ hội xuất hiện tài liệu đúng trong top-k, đặc biệt với query cần nhiều ngữ cảnh.
 
-### So Sánh Với Thành Viên Khác
-
-| Thành viên | Strategy | Retrieval Score (/10) | Điểm mạnh | Điểm yếu |
-|-----------|----------|----------------------|-----------|----------|
-| Tôi | Late Chunking (custom) | 6.0 (top-3 hit 3/5) | Linh hoạt theo query, tăng recall top-3 | Triển khai phức tạp hơn, khó tuning tham số |
-| [Tên thành viên A] | FixedSizeChunker | 2.0 (top-3 hit 1/5) | Cấu hình đơn giản, tốc độ ổn định, dễ debug | Dễ cắt mất ngữ nghĩa y khoa khi chunk cố định |
-| Việt | RecursiveChunker | 4.0 (top-3 hit 2/5) | Chunk chi tiết hơn, có thể tăng recall một số query khó | Nhiều chunk vụn, top-1 dễ lệch và nhiễu |
-
 **Strategy nào tốt nhất cho domain này? Tại sao?**
 > Với dataset hiện tại, Late Chunking cho tín hiệu tốt hơn ở mức recall (top-3) so với baseline fixed-size trong cùng điều kiện test. Cách giữ chunk lớn ở bước index giúp hạn chế mất ý nghĩa y khoa, còn bước cắt muộn cải thiện khả năng đưa đúng tài liệu vào top-k. Vì vậy strategy này phù hợp hơn khi benchmark có cả câu hỏi tổng quan và câu hỏi cụ thể.
 
